@@ -10,10 +10,7 @@ import type { GenerateCodeRequest, GenerateCodeResponse } from "@shared/schema";
 export default function Home() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [apiKeys, setApiKeys] = useState<Record<string, string>>({
-    openai: import.meta.env.VITE_OPENAI_API_KEY || "",
-    anthropic: import.meta.env.VITE_ANTHROPIC_API_KEY || "",
-    google: import.meta.env.VITE_GOOGLE_API_KEY || "",
-    mistral: import.meta.env.VITE_MISTRAL_API_KEY || "",
+    google: import.meta.env.VITE_GEMINI_API_KEY || "",
   });
   const [temperature, setTemperature] = useState(0.7);
   const [maxTokens, setMaxTokens] = useState(2000);

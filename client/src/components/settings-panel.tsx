@@ -19,28 +19,10 @@ interface SettingsPanelProps {
 
 const API_KEY_FIELDS = [
   {
-    key: "openai",
-    label: "OpenAI API Key",
-    placeholder: "sk-...",
-    description: "For GPT-4o model"
-  },
-  {
-    key: "anthropic",
-    label: "Anthropic API Key",
-    placeholder: "sk-ant-...",
-    description: "For Claude-4 model"
-  },
-  {
     key: "google",
     label: "Google AI API Key",
     placeholder: "AIza...",
-    description: "For Gemini model"
-  },
-  {
-    key: "mistral",
-    label: "Mistral API Key",
-    placeholder: "...",
-    description: "For Mistral model"
+    description: "For Gemini 2.5 Flash model"
   }
 ];
 

@@ -22,12 +22,9 @@ export type CodeGeneration = typeof codeGenerations.$inferSelect;
 // API Types
 export const generateCodeSchema = z.object({
   prompt: z.string().min(1, "Prompt is required"),
-  model: z.enum(["gpt-4o", "claude-sonnet-4", "gemini-2.5-flash", "mistral-large"]),
+  model: z.enum(["gemini-2.5-flash"]),
   apiKeys: z.object({
-    openai: z.string().optional(),
-    anthropic: z.string().optional(),
     google: z.string().optional(),
-    mistral: z.string().optional(),
   }),
   temperature: z.number().min(0).max(2).default(0.7),
   maxTokens: z.number().min(100).max(4000).default(2000),

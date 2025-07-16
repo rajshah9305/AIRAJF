@@ -23,32 +23,11 @@ interface ControlPanelProps {
 
 const AI_MODELS = [
   {
-    id: "gpt-4o",
-    name: "GPT-4o",
-    provider: "OpenAI",
-    icon: "🤖",
-    apiKeyField: "openai"
-  },
-  {
-    id: "claude-sonnet-4",
-    name: "Claude-4",
-    provider: "Anthropic",
-    icon: "🧠",
-    apiKeyField: "anthropic"
-  },
-  {
     id: "gemini-2.5-flash",
-    name: "Gemini",
-    provider: "Google",
+    name: "Gemini 2.5 Flash",
+    provider: "Google AI",
     icon: "✨",
     apiKeyField: "google"
-  },
-  {
-    id: "mistral-large",
-    name: "Mistral",
-    provider: "Mistral AI",
-    icon: "🌪️",
-    apiKeyField: "mistral"
   }
 ];
 
@@ -61,7 +40,7 @@ export function ControlPanel({
   maxTokens 
 }: ControlPanelProps) {
   const [prompt, setPrompt] = useState("");
-  const [selectedModel, setSelectedModel] = useState("gpt-4o");
+  const [selectedModel, setSelectedModel] = useState("gemini-2.5-flash");
 
   const handleGenerate = () => {
     if (!prompt.trim()) {
@@ -117,43 +96,39 @@ export function ControlPanel({
       {/* Model Selection */}
       <div className="p-6 border-b border-gray-800">
         <label className="block text-sm font-semibold text-gray-300 mb-4">AI Model</label>
-        <div className="grid grid-cols-2 gap-3">
-          {AI_MODELS.map((model) => {
-            const hasApiKey = !!apiKeys[model.apiKeyField];
-            const isSelected = selectedModel === model.id;
-            
-            return (
-              <Card
-                key={model.id}
-                className={cn(
-                  "model-card p-4 cursor-pointer transition-all duration-200 group relative",
-                  isSelected 
-                    ? "border-white bg-gray-800" 
-                    : "bg-gray-900 border-gray-800 hover:border-white hover:bg-gray-800",
-                  !hasApiKey && "opacity-50"
-                )}
-                onClick={() => hasApiKey && setSelectedModel(model.id)}
-              >
-                <div className="model-icon text-center mb-2 transition-transform duration-200">
+        {AI_MODELS.map((model) => {
+          const hasApiKey = !!apiKeys[model.apiKeyField];
+          
+          return (
+            <Card
+              key={model.id}
+              className={cn(
+                "model-card p-4 transition-all duration-200 group relative",
+                "border-white bg-gray-800",
+                !hasApiKey && "opacity-50"
+              )}
+            >
+              <div className="flex items-center space-x-3">
+                <div className="model-icon transition-transform duration-200">
                   <span className="text-2xl">{model.icon}</span>
                 </div>
-                <div className="text-center">
+                <div>
                   <h3 className="font-semibold text-sm">{model.name}</h3>
                   <p className="text-xs text-gray-500">{model.provider}</p>
                 </div>
-                
-                {!hasApiKey && (
-                  <Badge 
-                    variant="destructive" 
-                    className="absolute -top-1 -right-1 text-xs px-1 py-0.5 text-[10px]"
-                  >
-                    No Key
-                  </Badge>
-                )}
-              </Card>
-            );
-          })}
-        </div>
+              </div>
+              
+              {!hasApiKey && (
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-1 -right-1 text-xs px-1 py-0.5 text-[10px]"
+                >
+                  No Key
+                </Badge>
+              )}
+            </Card>
+          );
+        })}
       </div>
       
       {/* Prompt Input */}

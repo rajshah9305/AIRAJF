@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheckIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { ShieldCheckIcon, ArrowTopRightOnSquareIcon, EyeIcon, CodeBracketIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 
 interface PreviewAreaProps {
@@ -12,6 +12,7 @@ interface PreviewAreaProps {
 
 export function PreviewArea({ variations, isGenerating, generationStatus }: PreviewAreaProps) {
   const [currentTab, setCurrentTab] = useState(0);
+  const [viewMode, setViewMode] = useState<"preview" | "code">("preview");
 
   // Reset to first tab when new generation starts
   useEffect(() => {
@@ -27,15 +28,32 @@ export function PreviewArea({ variations, isGenerating, generationStatus }: Prev
       {/* Preview Header */}
       <div className="border-b border-gray-800 p-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold">Live Preview</h3>
+          <h3 className="text-lg font-bold">Live {viewMode === "preview" ? "Preview" : "Code"}</h3>
           <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 bg-gray-800 rounded-lg p-1">
+              <Button
+                variant={viewMode === "preview" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("preview")}
+                className="h-7 px-2 text-xs"
+              >
+                <EyeIcon className="w-3 h-3 mr-1" />
+                Preview
+              </Button>
+              <Button
+                variant={viewMode === "code" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("code")}
+                className="h-7 px-2 text-xs"
+              >
+                <CodeBracketIcon className="w-3 h-3 mr-1" />
+                Code
+              </Button>
+            </div>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <ShieldCheckIcon className="w-4 h-4" />
               <span>Sandboxed</span>
             </div>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-            </Button>
           </div>
         </div>
         
@@ -74,19 +92,30 @@ export function PreviewArea({ variations, isGenerating, generationStatus }: Prev
       
       {/* Preview Content */}
       <div className="flex-1 relative bg-white">
-        {/* Variation iframes */}
-        {Array.from({ length: 5 }, (_, index) => (
-          <iframe
-            key={index}
-            className={cn(
-              "preview-frame absolute inset-0 w-full h-full border-0",
-              currentTab === index ? "block" : "hidden"
-            )}
-            sandbox="allow-scripts allow-same-origin allow-forms"
-            srcDoc={variations[index] || ""}
-            title={`Variation ${index + 1}`}
-          />
-        ))}
+        {viewMode === "preview" ? (
+          /* Variation iframes */
+          Array.from({ length: 5 }, (_, index) => (
+            <iframe
+              key={index}
+              className={cn(
+                "preview-frame absolute inset-0 w-full h-full border-0",
+                currentTab === index ? "block" : "hidden"
+              )}
+              sandbox="allow-scripts allow-same-origin allow-forms"
+              srcDoc={variations[index] || ""}
+              title={`Variation ${index + 1}`}
+            />
+          ))
+        ) : (
+          /* Code view */
+          <div className="absolute inset-0 bg-gray-900 text-white overflow-auto">
+            <pre className="p-4 text-sm font-mono leading-relaxed whitespace-pre-wrap">
+              <code>
+                {variations[currentTab] || "// No code generated yet"}
+              </code>
+            </pre>
+          </div>
+        )}
         
         {/* Empty State */}
         {!hasAnyContent && !isGenerating && (
