@@ -2,13 +2,8 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "dist/**"
-        ]
-      }
+      "src": "dist/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -25,7 +20,5 @@
     "dist/index.js": {
       "runtime": "nodejs20.x"
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
   }
+}
