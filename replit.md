@@ -8,6 +8,24 @@ This is a full-stack web application that generates multiple code variations usi
 
 Preferred communication style: Simple, everyday language.
 
+## Current Status
+
+✓ RAJ AI Code Generation Studio - Award-winning monochromatic design completed
+✓ Simplified to use only Gemini AI model as requested  
+✓ Added Preview/Code toggle functionality in header
+✓ Implemented sandboxed iframe previews for security
+✓ Created settings panel for API key management
+✓ Fixed environment variable access issues
+
+## Recent Changes (January 16, 2025)
+
+- Streamlined UI to show only Gemini 2.5 Flash model
+- Added code/preview toggle buttons with icons
+- Updated schema to only support Gemini model
+- Simplified settings to show only Google AI API key field
+- Fixed React environment variable access (import.meta.env)
+- Resolved server port conflicts and workflow restart issues
+
 ## System Architecture
 
 ### Frontend Architecture
